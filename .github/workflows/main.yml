@@ -1,0 +1,31 @@
+name: "Workflow"
+on:
+    push:
+        tags:
+            - "v*"
+jobs:
+    build:
+        name: "Build"
+        runs-on: "ubuntu-latest"
+        steps:
+            - uses: "actions/checkout@master"
+            - name: "Build"
+              uses: "./.github/actions/build"
+              with:
+                  args: "./docker/Dockerfile"
+              env:
+                  DOCKER_IMAGE: ${{ secrets.DOCKER_IMAGE }}
+            - name: "Push"
+              uses: "./.github/actions/push"
+              env:
+                  DOCKER_IMAGE: ${{ secrets.DOCKER_IMAGE }}
+                  DOCKER_PASSWORD: ${{ secrets.GITHUB_TOKEN }}
+                  DOCKER_REGISTRY_URL: ${{ secrets.DOCKER_REGISTRY_URL }}
+                  DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
+            - name: "Notify"
+              uses: appleboy/telegram-action@827b11092f232809f6082a19201490ac1cd469e5
+              with:
+                  args: "Successful deploy"
+              env:
+                  TELEGRAM_TO: ${{ secrets.TELEGRAM_TO }}
+                  TELEGRAM_TOKEN: ${{ secrets.TELEGRAM_TOKEN }}
