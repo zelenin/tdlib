@@ -15,6 +15,7 @@ jobs:
                   args: "./docker/Dockerfile"
               env:
                   DOCKER_IMAGE: ${{ secrets.DOCKER_IMAGE }}
+                  TD_TAG: v1.6.0
             - name: "Push"
               uses: "./.github/actions/push"
               env:
