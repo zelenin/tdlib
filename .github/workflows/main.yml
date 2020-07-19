@@ -25,7 +25,7 @@ jobs:
             - name: "Notify"
               uses: appleboy/telegram-action@827b11092f232809f6082a19201490ac1cd469e5
               with:
-                  args: "Successful deploy"
+                  args: "Successful build"
               env:
                   TELEGRAM_TO: ${{ secrets.TELEGRAM_TO }}
                   TELEGRAM_TOKEN: ${{ secrets.TELEGRAM_TOKEN }}
